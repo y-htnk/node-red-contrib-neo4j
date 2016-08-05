@@ -14,26 +14,13 @@
             return this.name||"neo4j";
         },
         oneditprepare: function() {
-            function functionDialogResize(ev,ui) {
-                $("#node-input-query-editor").css("height",(ui.size.height-235)+"px");
-            }
-            $( "#dialog" ).on("dialogresize", functionDialogResize);
-            $( "#dialog" ).one("dialogopen", function(ev) {
-                var size = $( "#dialog" ).dialog('option','sizeCache-function');
-                if (size) {
-                    functionDialogResize(null,{size:size});
-                }
-            });
-            $( "#dialog" ).one("dialogclose", function(ev,ui) {
-                var height = $( "#dialog" ).dialog('option','height');
-                $( "#dialog" ).off("dialogresize",functionDialogResize);
-            });
             var that = this;
             this.editor = RED.editor.createEditor({
                 id: 'node-input-query-editor',
                 mode: 'ace/mode/sql',
                 value: $("#node-input-query").val()
             });
+            this.editor.focus();
         },
         oneditsave: function() {
             $("#node-input-query").val(this.editor.getValue());
@@ -55,15 +42,19 @@
 
 <script type="text/x-red" data-template-name="neo4j">
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <label for="node-input-name"><i class="icon-tag"></i> <span>Name</span></label>
         <input type="text" id="node-input-name" placeholder="Name">
-        <label for="node-input-url"><i class="icon-tag"></i> URL</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="icon-tag"></i> <span>URL</span></label>
         <input type="text" id="node-input-url" placeholder="url">
     </div>
-    <div class="form-row node-text-editor-row">
-        <label for="node-input-query" style="width: 100% !important;"><i class="fa fa-comments"></i> Cypher query</label>
+    <div class="form-row" style="margin-bottom: 0px;">
+        <label for="node-input-query"><i class="fa fa-comments"></i> <span>Cypher</span></label>
         <input type="hidden" id="node-input-query" autofocus="autofocus">
-        <div style="height: 250px;" class="node-text-editor" id="node-input-query-editor" ></div>
+    </div>
+    <div class="form-row node-text-editor-row">
+        <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-query-editor" ></div>
     </div>
 </script>
 
